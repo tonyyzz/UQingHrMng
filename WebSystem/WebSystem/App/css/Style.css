@@ -1,0 +1,9 @@
+﻿body {
+	  font-family: '\5FAE\8F6F\96C5\9ED1';
+	background: #f1f4f7;
+	padding-top: 50px;
+	color: #5f6468;
+}
+.index-bg{ width:100%;background:url(../images/bg.png) no-repeat ;
+   background-size: 100% 100%; 
+ }

@@ -1,2 +1,0 @@
-# UQingHrMng
-UQing Hr Manage

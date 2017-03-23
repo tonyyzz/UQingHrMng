@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSystem", "WebSystem\WebSystem.csproj", "{ADEF4E51-FA93-4AC3-927F-C643264D03FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.Bll", "..\ZhouFu.Bll\ZhongLi.Bll.csproj", "{2F938A7B-8638-4167-9346-C4B6B66E43C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.Common", "..\ZhouFu.Common\ZhongLi.Common.csproj", "{56213535-7FD9-4ACD-A497-705670CE61DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.Dal", "..\ZhouFu.Dal\ZhongLi.Dal.csproj", "{AB23F83D-1C28-4076-A85D-BB4461E5A898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.Model", "..\ZhouFu.Model\ZhongLi.Model.csproj", "{71B2FAA1-1DF4-4A08-B4AE-D11F32A2FB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.DBUtility", "..\ZhouFu.DBUtility\ZhongLi.DBUtility.csproj", "{E29435CF-36C0-4228-8192-723DED3BCACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhongLi.Api", "..\ZhouFu.Api\ZhongLi.Api.csproj", "{F5468F7B-0F4E-4BEB-A811-38217C241267}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 8
+		SccProjectName0 = $/WebSystem
+		SccLocalPath0 = ..
+		SccProvider0 = MSSCCI:SourceGear\u0020Vault\u0020Professional\u0020Classic\u0020Client
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection0 = WebSystem\\
+		SccProjectUniqueName1 = WebSystem\\WebSystem.csproj
+		SccLocalPath1 = ..
+		SccProjectFilePathRelativizedFromConnection1 = WebSystem\\WebSystem\\
+		SccProjectUniqueName2 = ..\\ZhouFu.Api\\ZhongLi.Api.csproj
+		SccLocalPath2 = ..
+		SccProjectFilePathRelativizedFromConnection2 = ZhouFu.Api\\
+		SccProjectUniqueName3 = ..\\ZhouFu.Bll\\ZhongLi.Bll.csproj
+		SccLocalPath3 = ..
+		SccProjectFilePathRelativizedFromConnection3 = ZhouFu.Bll\\
+		SccProjectUniqueName4 = ..\\ZhouFu.Common\\ZhongLi.Common.csproj
+		SccLocalPath4 = ..
+		SccProjectFilePathRelativizedFromConnection4 = ZhouFu.Common\\
+		SccProjectUniqueName5 = ..\\ZhouFu.Dal\\ZhongLi.Dal.csproj
+		SccLocalPath5 = ..
+		SccProjectFilePathRelativizedFromConnection5 = ZhouFu.Dal\\
+		SccProjectUniqueName6 = ..\\ZhouFu.DBUtility\\ZhongLi.DBUtility.csproj
+		SccLocalPath6 = ..
+		SccProjectFilePathRelativizedFromConnection6 = ZhouFu.DBUtility\\
+		SccProjectUniqueName7 = ..\\ZhouFu.Model\\ZhongLi.Model.csproj
+		SccLocalPath7 = ..
+		SccProjectFilePathRelativizedFromConnection7 = ZhouFu.Model\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADEF4E51-FA93-4AC3-927F-C643264D03FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADEF4E51-FA93-4AC3-927F-C643264D03FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADEF4E51-FA93-4AC3-927F-C643264D03FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADEF4E51-FA93-4AC3-927F-C643264D03FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F938A7B-8638-4167-9346-C4B6B66E43C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F938A7B-8638-4167-9346-C4B6B66E43C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F938A7B-8638-4167-9346-C4B6B66E43C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F938A7B-8638-4167-9346-C4B6B66E43C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56213535-7FD9-4ACD-A497-705670CE61DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56213535-7FD9-4ACD-A497-705670CE61DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56213535-7FD9-4ACD-A497-705670CE61DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56213535-7FD9-4ACD-A497-705670CE61DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB23F83D-1C28-4076-A85D-BB4461E5A898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB23F83D-1C28-4076-A85D-BB4461E5A898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB23F83D-1C28-4076-A85D-BB4461E5A898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB23F83D-1C28-4076-A85D-BB4461E5A898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71B2FAA1-1DF4-4A08-B4AE-D11F32A2FB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B2FAA1-1DF4-4A08-B4AE-D11F32A2FB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71B2FAA1-1DF4-4A08-B4AE-D11F32A2FB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71B2FAA1-1DF4-4A08-B4AE-D11F32A2FB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29435CF-36C0-4228-8192-723DED3BCACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29435CF-36C0-4228-8192-723DED3BCACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29435CF-36C0-4228-8192-723DED3BCACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29435CF-36C0-4228-8192-723DED3BCACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5468F7B-0F4E-4BEB-A811-38217C241267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5468F7B-0F4E-4BEB-A811-38217C241267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5468F7B-0F4E-4BEB-A811-38217C241267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5468F7B-0F4E-4BEB-A811-38217C241267}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
