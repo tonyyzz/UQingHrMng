@@ -72,7 +72,7 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td><asp:CheckBox ID="chkid" runat="server" name="subBox"  />
-                                                <asp:HiddenField ID="txtid" runat="server" Value='<%#Eval("CPID") %>' />
+                                                <asp:HiddenField ID="txtid" runat="server" Value='<%#Eval("ID") %>' />
                                             </td>
                                             <td><img src='<%#Eval("Logo").ToString()==""?"/images/admin/noimg.jpg":Eval("Logo") %>' width="60"/></td>
                                             <td><%#Eval("Name") %></td>
