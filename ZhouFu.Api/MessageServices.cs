@@ -84,8 +84,29 @@ namespace ZhongLi.Api
             {
                 return "发送失败 失败原因：";
             }
-
         }
+
+		/// <summary>
+		/// 经纪人接受求职者悬赏发给求职者的短信通知
+		/// </summary>
+		/// <param name="PhoneNumber"></param>
+		/// <param name="Captcha"></param>
+		/// <returns></returns>
+		public static string SendToPerInform(string PhoneNumber)
+		{
+			//string conent = string.Format("欢迎使用{0}网站会员，您的手机验证码是{1}。如非本人操作请致电：{2}。或回复TD退订", PublicMethod.GetSiteName(), Captcha, PublicMethod.GetSiteTell());//【更改手机短信内容】
+			string smsParam = "{}";
+			string smsTemplateCode = "SMS_58360052";
+			if (ALiDaYuSendInfo(PhoneNumber, smsParam, smsTemplateCode))
+			{
+				return "发送成功";
+			}
+			else
+			{
+				return "发送失败 失败原因：";
+			}
+
+		}
         #endregion
 
 
@@ -112,7 +133,14 @@ namespace ZhongLi.Api
                 req.SmsTemplateCode = smsTemplateCode;//模板ID
                 AlibabaAliqinFcSmsNumSendResponse rsp = client.Execute(req);
                 //Console.WriteLine(rsp.Body);
-                return rsp.Result.Success;
+				if (rsp.Result == null)
+				{
+					return false;
+				}
+				else
+				{
+					return rsp.Result.Success;
+				}
                 //return true;
                 //短信接口对接内容...
             }

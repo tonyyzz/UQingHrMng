@@ -1705,7 +1705,18 @@ namespace WebSystem.App
                 JPushApiExample.MSG_CONTENT = "人才经纪人" + SerRealName + "接受了您针对职位" + PostName + "发送的悬赏订单，去我的订单查看吧";
                 PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("p" + PerID, "Order");
                 JPushApiExample.push(pushsms);
-                strResult = "{\"state\":0}";
+                strResult = "{\"state\":0}"; //成功
+
+				//发送短信通知给经纪人
+				var prMatchModel = new ZhongLi.BLL.Person_Reward_Matching().GetModel(PerRewMatID);
+				if (prMatchModel != null)
+				{
+					var serverUser = new ZhongLi.BLL.ServerUser().GetModel(prMatchModel.PerID ?? 0);
+					if (serverUser != null && !String.IsNullOrWhiteSpace(serverUser.Phone)) 
+					{
+						MessageServices.SendToPerInform(serverUser.Phone);
+					}
+				}
             }
             else
             {
