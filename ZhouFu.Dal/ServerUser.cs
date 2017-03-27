@@ -77,7 +77,8 @@ namespace ZhongLi.DAL
 					new SqlParameter("@WxOpenID", SqlDbType.NVarChar,200),
 					new SqlParameter("@PerID", SqlDbType.Int,4),
 					new SqlParameter("@QQOpenID", SqlDbType.NVarChar,200),
-					new SqlParameter("@WbOpenID", SqlDbType.NVarChar,200)};
+					new SqlParameter("@WbOpenID", SqlDbType.NVarChar,200),
+					new SqlParameter("@AttestType", SqlDbType.Int,4)};
 			parameters[0].Direction = ParameterDirection.Output;
 			parameters[1].Value = model.RealName;
 			parameters[2].Value = model.Sex;
@@ -105,6 +106,7 @@ namespace ZhongLi.DAL
 			parameters[24].Value = model.PerID;
 			parameters[25].Value = model.QQOpenID;
 			parameters[26].Value = model.WbOpenID;
+			parameters[27].Value = model.AttestType;
 
 			DbHelperSQL.RunProcedure("ServerUser_ADD",parameters,out rowsAffected);
 			return (int)parameters[0].Value;
@@ -143,7 +145,8 @@ namespace ZhongLi.DAL
 					new SqlParameter("@WxOpenID", SqlDbType.NVarChar,200),
 					new SqlParameter("@PerID", SqlDbType.Int,4),
 					new SqlParameter("@QQOpenID", SqlDbType.NVarChar,200),
-					new SqlParameter("@WbOpenID", SqlDbType.NVarChar,200)};
+					new SqlParameter("@WbOpenID", SqlDbType.NVarChar,200),
+					new SqlParameter("@AttestType", SqlDbType.Int,4)};
 			parameters[0].Value = model.SerUserID;
 			parameters[1].Value = model.RealName;
 			parameters[2].Value = model.Sex;
@@ -171,6 +174,7 @@ namespace ZhongLi.DAL
 			parameters[24].Value = model.PerID;
 			parameters[25].Value = model.QQOpenID;
 			parameters[26].Value = model.WbOpenID;
+			parameters[27].Value = model.AttestType;
 
 			DbHelperSQL.RunProcedure("ServerUser_Update",parameters,out rowsAffected);
 			if (rowsAffected > 0)
@@ -368,6 +372,10 @@ namespace ZhongLi.DAL
 				if(row["WbOpenID"]!=null)
 				{
 					model.WbOpenID=row["WbOpenID"].ToString();
+				}
+				if (row["AttestType"] != null && row["AttestType"].ToString() != "")
+				{
+					model.AttestType = int.Parse(row["AttestType"].ToString());
 				}
 			}
 			return model;
@@ -641,10 +649,10 @@ namespace ZhongLi.DAL
         /// <param name="SerUserID"></param>
         /// <param name="url1"></param>
         /// <param name="url2"></param>
-        public bool uploadIdCardApprove(int SerUserID,string url1,string url2)
+        public bool uploadIdCardApprove(int SerUserID,string url1,string url2,int attestType)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.AppendFormat("update ServerUser set IDCardImg='{0}',SerImg='{1}',Flag=1 where SerUserID={2}",url1,url2,SerUserID);
+			strSql.AppendFormat("update ServerUser set IDCardImg='{0}',SerImg='{1}',Flag=1,AttestType={2} where SerUserID={3}", url1, url2, attestType, SerUserID);
             return DbHelperSQL.ExecuteSql(strSql.ToString())>0;
         }
         /// <summary>

@@ -1251,6 +1251,10 @@ namespace WebSystem.App
             int SerUserID = Convert.ToInt32(context.Request.Form["SerUserID"]);
             string IDCardImg = context.Request.Form["IDCardImg"];
             string SerImg = context.Request.Form["SerImg"];
+
+			string attestTypeStr = context.Request["attestType"] ?? "";
+			int attestType = 0; int.TryParse(attestTypeStr, out attestType);
+
             string FileUrl = "";
             byte[] buffer = Convert.FromBase64String(IDCardImg);
             FileUrl = "/upload/seruser/idcardimg/" + Guid.NewGuid().ToString() + ".png";
@@ -1261,7 +1265,7 @@ namespace WebSystem.App
             //string FileUrl1 = "/upload/seruser/idcardimg/" + Guid.NewGuid().ToString() + ".png";
             //sFilePath = context.Server.MapPath(FileUrl1);
             //File.WriteAllBytes(sFilePath, buffer1);
-            if (new ZhongLi.BLL.ServerUser().uploadIdCardApprove(SerUserID, FileUrl,""))
+			if (new ZhongLi.BLL.ServerUser().uploadIdCardApprove(SerUserID, FileUrl, "", attestType))
             {
                 strResult = "{\"state\":0,\"url1\":\"" + FileUrl + "\"}";//,\"url2\":\""+FileUrl1+"\"
             }

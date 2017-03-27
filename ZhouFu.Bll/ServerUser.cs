@@ -329,9 +329,9 @@ namespace ZhongLi.BLL
         /// <param name="SerUserID"></param>
         /// <param name="url1"></param>
         /// <param name="url2"></param>
-        public bool uploadIdCardApprove(int SerUserID, string url1, string url2)
+		public bool uploadIdCardApprove(int SerUserID, string url1, string url2, int attestType)
         {
-            return dal.uploadIdCardApprove(SerUserID,url1,url2);
+			return dal.uploadIdCardApprove(SerUserID, url1, url2, attestType);
         }
 		#endregion  ExtensionMethod
 	}

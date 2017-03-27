@@ -37,6 +37,7 @@ namespace ZhongLi.Model
         private int? _perid;
         private string _qqopenid;
         private string _wbopenid;
+		private int? _attestType;
         /// <summary>
         /// 
         /// </summary>
@@ -253,6 +254,11 @@ namespace ZhongLi.Model
             set { _wbopenid = value; }
             get { return _wbopenid; }
         }
+		public int? AttestType
+		{
+			set { _attestType = value; }
+			get { return _attestType; }
+		}
         #endregion Model
 
     }
