@@ -87,17 +87,34 @@ namespace ZhongLi.Api
         }
 
 		/// <summary>
-		/// 经纪人接受求职者悬赏发给求职者的短信通知
+		/// 给经纪人发送悬赏订单短信通知
 		/// </summary>
-		/// <param name="PhoneNumber"></param>
-		/// <param name="Captcha"></param>
 		/// <returns></returns>
-		public static string SendToPerInform(string PhoneNumber)
+		public static string SendToSerOrderInfo(string SerPhoneNumber, string SerName, string PerName)
 		{
 			//string conent = string.Format("欢迎使用{0}网站会员，您的手机验证码是{1}。如非本人操作请致电：{2}。或回复TD退订", PublicMethod.GetSiteName(), Captcha, PublicMethod.GetSiteTell());//【更改手机短信内容】
-			string smsParam = "{}";
-			string smsTemplateCode = "SMS_58360052";
-			if (ALiDaYuSendInfo(PhoneNumber, smsParam, smsTemplateCode))
+			string smsParam = "{\"SerName\":\"" + SerName + "\",\"PerName\":\"" + PerName + "\"}";
+			string smsTemplateCode = "SMS_58460022";
+			if (ALiDaYuSendInfo(SerPhoneNumber, smsParam, smsTemplateCode))
+			{
+				return "发送成功";
+			}
+			else
+			{
+				return "发送失败 失败原因：";
+			}
+
+		}
+		/// <summary>
+		/// 给经纪人发送悬赏订单短信通知
+		/// </summary>
+		/// <returns></returns>
+		public static string SendToPerOrderSuccessInfo(string perPhoneNumber, string perName, string serName)
+		{
+			//string conent = string.Format("欢迎使用{0}网站会员，您的手机验证码是{1}。如非本人操作请致电：{2}。或回复TD退订", PublicMethod.GetSiteName(), Captcha, PublicMethod.GetSiteTell());//【更改手机短信内容】
+			string smsParam = "{\"PerName\":\"" + perName + "\",\"SerName\":\"" + serName + "\"}";
+			string smsTemplateCode = "SMS_58825018";
+			if (ALiDaYuSendInfo(perPhoneNumber, smsParam, smsTemplateCode))
 			{
 				return "发送成功";
 			}

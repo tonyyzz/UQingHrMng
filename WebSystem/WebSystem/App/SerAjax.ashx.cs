@@ -1474,18 +1474,30 @@ namespace WebSystem.App
             string PerRealName = context.Request.Form["PerRealName"];//求职者姓名
             int SerUserID = Convert.ToInt32(context.Request.Form["SerUserID"]);//经纪人ID
             string SerRealName= context.Request.Form["SerRealName"];//经纪人姓名
-            if (new ZhongLi.BLL.Friends().PersonApply(SerUserID, SerRealName, PerID, PerRealName, 1))
-            {
-                JPushApiExample.ALERT = "人才经纪人" + SerRealName + "申请添加您为好友";
-                JPushApiExample.MSG_CONTENT = "人才经纪人" + SerRealName + "申请添加您为好友";
-                PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("p" + PerID, "Order");
-                JPushApiExample.push(pushsms);
-                strResult = "{\"state\":0}";//添加成功
-            }
-            else
-            {
-                strResult = "{\"state\":1}";//添加失败
-            }
+
+			//判断订单状态，和是否为好友，如果不是好友关系，并且订单处于要悬赏的状态，则不允许添加好友
+			string PerRewMatIDStr = context.Request["PerRewMatID"] ?? "";
+			int PerRewMatID = 0; int.TryParse(PerRewMatIDStr, out PerRewMatID);
+			int state = new ZhongLi.BLL.Person_Reward_Matching().GetState(PerRewMatID);
+			if (state == 3) //处于悬赏状态
+			{
+				strResult = "{\"state\":2}"; //不准申请添加好友
+			}
+			else
+			{
+				if (new ZhongLi.BLL.Friends().PersonApply(SerUserID, SerRealName, PerID, PerRealName, 1))
+				{
+					JPushApiExample.ALERT = "人才经纪人" + SerRealName + "申请添加您为好友";
+					JPushApiExample.MSG_CONTENT = "人才经纪人" + SerRealName + "申请添加您为好友";
+					PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("p" + PerID, "Order");
+					JPushApiExample.push(pushsms);
+					strResult = "{\"state\":0}";//添加成功
+				}
+				else
+				{
+					strResult = "{\"state\":1}";//添加失败
+				}
+			}
         }
         /// <summary>
         /// 判断是否是好友
@@ -1699,33 +1711,42 @@ namespace WebSystem.App
         /// <param name="context"></param>
         public void setPersonRewMat(HttpContext context)
         {
-            int PerRewMatID = Convert.ToInt32(context.Request.Form["PerRewMatID"]);
-            string SerRealName=context.Request.Form["SerRealName"];
-            int PerID = Convert.ToInt32(context.Request.Form["PerID"]);
-            string PostName = context.Request.Form["PostName"];
-            if (new ZhongLi.BLL.Person_Reward_Matching().setSerUserRewardMat(PerRewMatID,SerRealName,PostName))
-            {
-                JPushApiExample.ALERT = "人才经纪人" + SerRealName + "接受了您针对职位" + PostName + "发送的悬赏订单，去我的订单查看吧";
-                JPushApiExample.MSG_CONTENT = "人才经纪人" + SerRealName + "接受了您针对职位" + PostName + "发送的悬赏订单，去我的订单查看吧";
-                PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("p" + PerID, "Order");
-                JPushApiExample.push(pushsms);
-                strResult = "{\"state\":0}"; //成功
-
-				//发送短信通知给经纪人
-				var prMatchModel = new ZhongLi.BLL.Person_Reward_Matching().GetModel(PerRewMatID);
-				if (prMatchModel != null)
+			try
+			{
+				int PerRewMatID = Convert.ToInt32(context.Request.Form["PerRewMatID"]);
+				string SerRealName = context.Request.Form["SerRealName"];
+				int PerID = Convert.ToInt32(context.Request.Form["PerID"]);
+				string PostName = context.Request.Form["PostName"];
+				if (new ZhongLi.BLL.Person_Reward_Matching().setSerUserRewardMat(PerRewMatID, SerRealName, PostName))
 				{
-					var serverUser = new ZhongLi.BLL.ServerUser().GetModel(prMatchModel.PerID ?? 0);
-					if (serverUser != null && !String.IsNullOrWhiteSpace(serverUser.Phone)) 
+					JPushApiExample.ALERT = "人才经纪人" + SerRealName + "接受了您针对职位" + PostName + "发送的悬赏订单，去我的订单查看吧";
+					JPushApiExample.MSG_CONTENT = "人才经纪人" + SerRealName + "接受了您针对职位" + PostName + "发送的悬赏订单，去我的订单查看吧";
+					PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("p" + PerID, "Order");
+					JPushApiExample.push(pushsms);
+
+					//给求职者发送经纪人接受悬赏订单的短信通知
+					var prMatchModel = new ZhongLi.BLL.Person_Reward_Matching().GetModel(PerRewMatID);
+					if (prMatchModel != null)
 					{
-						MessageServices.SendToPerInform(serverUser.Phone);
+						var perUser = new ZhongLi.BLL.Person().GetModel(prMatchModel.PerID ?? 0); //求职者
+						var serUser = new ZhongLi.BLL.ServerUser().GetModel(prMatchModel.SerUserID ?? 0); //经纪人
+						if (perUser != null && !String.IsNullOrWhiteSpace(perUser.Phne) && serUser != null)
+						{
+							MessageServices.SendToPerOrderSuccessInfo(perUser.Phne, perUser.RealName, "人才经纪人" + serUser.RealName);
+						}
 					}
+
+					strResult = "{\"state\":0}"; //成功
 				}
-            }
-            else
-            {
-                strResult = "{\"state\":1}";
-            }
+				else
+				{
+					strResult = "{\"state\":1}";
+				}
+			}
+			catch (Exception ex)
+			{
+				LoggerHelper.LogError(ex.Message);
+			}
         }
         /// <summary>
         /// 人才悬赏订单

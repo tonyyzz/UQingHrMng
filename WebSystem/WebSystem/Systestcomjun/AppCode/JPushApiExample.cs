@@ -4,6 +4,7 @@ using cn.jpush.api.push.mode;
 using cn.jpush.api.push.notification;
 using cn.jpush.api.common.resp;
 using cn.jpush.api;
+using ZhongLi.Common;
 
 namespace WebSystem.Systestcomjun.AppCode
 {
@@ -33,7 +34,7 @@ namespace WebSystem.Systestcomjun.AppCode
             }
             catch (Exception ex)
             {
-
+				LoggerHelper.LogError(ex.Message);
             }
         }
         public static void Main(string[] args)

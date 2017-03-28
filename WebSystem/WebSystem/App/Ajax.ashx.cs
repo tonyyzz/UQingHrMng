@@ -1867,7 +1867,15 @@ namespace WebSystem.App
             {
                 strResult = "{\"state\":0,\"OrderID\":" + OrderID + "}";
             }
-
+			//推送
+			JPushApiExample.ALERT = order.RealName + "向您发送了悬赏订单";
+			JPushApiExample.MSG_CONTENT = order.RealName + "向您发送了悬赏订单";
+			PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("s" + SerUserID, "Order");
+			JPushApiExample.push(pushsms);
+			//给经纪人发送悬赏订单短信通知
+			//查询经纪人的电话号码
+			string serPhone = new ZhongLi.BLL.ServerUser().getPhone((order.SerUserID ?? 0).ToString());
+			MessageServices.SendToSerOrderInfo(serPhone, order.SerRealName, order.RealName);
         }
         /// <summary>
         /// 判断订单是否快要到期
