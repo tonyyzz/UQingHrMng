@@ -62,7 +62,7 @@
                             </div>
                             <div class="form-group">
                                 <label>邮箱</label>
-                                <asp:TextBox ID="txtEmail" runat="server" class="form-control" t="Email" n="1" MaxLength="10" placeholder="输入邮箱，必填"></asp:TextBox>
+                                <asp:TextBox ID="txtEmail" runat="server" class="form-control" t="Email" n="1" MaxLength="25" placeholder="输入邮箱，必填"></asp:TextBox>
                             </div>
                         </div>
                         <%--<div class="col-md-12" style="text-align: center;">--%>
