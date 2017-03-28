@@ -34,7 +34,7 @@ namespace WebSystem.Systestcomjun.AppCode
             }
             catch (Exception ex)
             {
-				LoggerHelper.LogError(ex.Message);
+				LoggerHelper.LogError(ex.ToString());
             }
         }
         public static void Main(string[] args)

@@ -1745,7 +1745,7 @@ namespace WebSystem.App
 			}
 			catch (Exception ex)
 			{
-				LoggerHelper.LogError(ex.Message);
+				LoggerHelper.LogError(ex.ToString());
 			}
         }
         /// <summary>
