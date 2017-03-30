@@ -1783,13 +1783,19 @@ namespace WebSystem.App
             int PostID = Convert.ToInt32(context.Request.Form["PostID"]);
             string RealName = context.Request.Form["RealName"];
             string SerRealName = context.Request.Form["SerRealName"];
+			//表1
             DataTable dt = new ZhongLi.BLL.Person_Reward().GetList(" PerID=" + PerID).Tables[0];
             DataRow dr = dt.Rows[0];
+			//表2
             ZhongLi.Model.ServerUser_Post post = new ZhongLi.BLL.ServerUser_Post().GetModel(PostID);
+			//表3
             ZhongLi.Model.Reward_Order order = new ZhongLi.Model.Reward_Order();
             Random r = new Random();
             int n = r.Next(0, 100);
+
+			//订单编号生成方式
             string OrderNum = "y" + DateTime.Now.ToString("yyyyMMddHHmmssms") + n.ToString().PadLeft(2, '0');
+
             order.OrderNum = OrderNum;
             order.PerRewardID = Convert.ToInt32(dr["PerRewardID"]);
             order.PostID = PostID;
@@ -1802,7 +1808,7 @@ namespace WebSystem.App
             }
             else
             {
-                order.OrderState = 0;
+                order.OrderState = 0; //代付款
             }
             order.PerID = PerID;
             order.RealName = RealName;
@@ -1842,6 +1848,7 @@ namespace WebSystem.App
                 if (order.OrderState == 11)
                 {
                     //免费订单  直接等待人才经纪人确认 添加确认项
+					//表4
                     ZhongLi.Model.Person_Reward_Matching prm = new ZhongLi.Model.Person_Reward_Matching();
                     prm.PerID = PerID;
                     prm.OrderID = OrderID;
@@ -1849,17 +1856,21 @@ namespace WebSystem.App
                     prm.SerUserID = SerUserID;
                     prm.SerPostID = PostID;
                     prm.MatchingTime = time;
-                    prm.State = 3;
+                    prm.State = 3;  //3状态表示？
                     prm.IsDelete = 0;
                     new ZhongLi.BLL.Person_Reward_Matching().Add(prm);
-                    //系统消息
+                    //系统推送消息
+					//表5
                     ZhongLi.Model.ServerUser_Message sermsg = new ZhongLi.Model.ServerUser_Message();
                     sermsg.MesCon = "您的职位有新的悬赏订单等待确认哦，赶紧去“我匹配的悬赏”里面查看吧";
                     sermsg.SendTime = time;
                     sermsg.SerUserID = SerUserID;
                     sermsg.MesType = 2;
                     new ZhongLi.BLL.ServerUser_Message().Add(sermsg);
-
+					//给经纪人发送悬赏订单短信通知
+					//查询经纪人的电话号码
+					string serPhone = new ZhongLi.BLL.ServerUser().getPhone((order.SerUserID ?? 0).ToString());
+					MessageServices.SendToSerOrderInfo(serPhone, order.SerRealName, order.RealName);
                 }
                 strResult = "{\"state\":0,\"OrderID\":" + OrderID + "}";
             }
@@ -1872,10 +1883,6 @@ namespace WebSystem.App
 			JPushApiExample.MSG_CONTENT = order.RealName + "向您发送了悬赏订单";
 			PushPayload pushsms = JPushApiExample.PushObject_ios_audienceMore_messageWithExtras("s" + SerUserID, "Order");
 			JPushApiExample.push(pushsms);
-			//给经纪人发送悬赏订单短信通知
-			//查询经纪人的电话号码
-			string serPhone = new ZhongLi.BLL.ServerUser().getPhone((order.SerUserID ?? 0).ToString());
-			MessageServices.SendToSerOrderInfo(serPhone, order.SerRealName, order.RealName);
         }
         /// <summary>
         /// 判断订单是否快要到期
