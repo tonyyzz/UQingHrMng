@@ -392,6 +392,7 @@ namespace WebSystem.App
                     case "test":
                         test(context);
                         break;
+					case "SendShortMessage": SendShortMessage(context); break;
                 }
             }
             catch (Exception ex)
@@ -2086,9 +2087,18 @@ namespace WebSystem.App
         private void OrderPay(HttpContext context)
         {
             int PerID = Convert.ToInt32(context.Request.Form["PerID"]);
-            int OrderID = Convert.ToInt32(context.Request.Form["OrderID"]);
+			string orderIdStr = context.Request["OrderID"];
+			int OrderID = 0; int.TryParse(orderIdStr, out OrderID);
             if (new ZhongLi.BLL.Person().BalancePay(PerID, OrderID))
             {
+				ZhongLi.Model.Reward_Order order =  new ZhongLi.BLL.Reward_Order().GetModel(OrderID);
+				if (order != null)
+				{
+					//给经纪人发送悬赏订单短信通知
+					//查询经纪人的电话号码
+					string serPhone = new ZhongLi.BLL.ServerUser().getPhone((order.SerUserID ?? 0).ToString());
+					MessageServices.SendToSerOrderInfo(serPhone, order.SerRealName, order.RealName);
+				}
                 strResult = "{\"state\":0}";
             }
             else
@@ -2666,6 +2676,29 @@ namespace WebSystem.App
             strResult = "{\"state\":\"" + Edition + "\"}";
         }
         #endregion
+
+		/// <summary>
+		/// 向经纪人发送短信
+		/// </summary>
+		/// <param name="context"></param>
+		private void SendShortMessage(HttpContext context)
+		{
+			//strResult
+			string perIdStr = context.Request["PerID"];
+			int PerID = 0; int.TryParse(perIdStr, out PerID);
+			string orderIdStr = context.Request["OrderID"];
+			int OrderID = 0; int.TryParse(orderIdStr, out OrderID);
+			ZhongLi.Model.Reward_Order order = new ZhongLi.BLL.Reward_Order().GetModel(OrderID);
+			if (order != null)
+			{
+				//给经纪人发送悬赏订单短信通知
+				//查询经纪人的电话号码
+				string serPhone = new ZhongLi.BLL.ServerUser().getPhone((order.SerUserID ?? 0).ToString());
+				MessageServices.SendToSerOrderInfo(serPhone, order.SerRealName, order.RealName);
+			}
+			strResult = JsonConvert.SerializeObject(new { state = 0 });
+		}
+
         public bool IsReusable
         {
             get
