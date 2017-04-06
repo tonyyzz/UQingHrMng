@@ -445,23 +445,96 @@ namespace ZhongLi.DAL
         public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("SELECT * FROM ( ");
-            strSql.Append(" SELECT ROW_NUMBER() OVER (");
-            if (!string.IsNullOrEmpty(orderby.Trim()))
-            {
-                strSql.Append("order by T." + orderby);
-            }
-            else
-            {
-                strSql.Append("order by T.SerUserID desc");
-            }
-            strSql.Append(")AS Row, T.*  from ServerUser T ");
-            if (!string.IsNullOrEmpty(strWhere.Trim()))
-            {
-                strSql.Append(" WHERE " + strWhere);
-            }
-            strSql.Append(" ) TT");
-            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+
+			strSql.AppendFormat(@" 
+with    T1
+          as ( select su.SerUserID, su.RealName, su.Sex, su.PhotoImg, su.Trade, su.Company, su.Position, su.WorkCity,
+                    su.Address, su.Phone, su.Email, su.Describe, su.IDCardImg, su.IDCardTime, su.Flag, su.SerImg,
+                    su.SerTime, su.Balance, su.RegTime, su.Password, su.IDCardState, su.SerImgState, su.ImOpenID,
+                    su.WxOpenID, su.PerID, su.QQOpenID, su.WbOpenID, su.AttestType, sp.CreateTime as ListPostCreateTime
+                from ServerUser su
+                    left join ServerUser_Post sp on su.SerUserID = sp.SerUserID) 
+");
+			strSql.AppendFormat(@" select T.Row, T.SerUserID, T.RealName, T.Sex, T.PhotoImg, T.Trade, T.Company, T.Position, T.WorkCity, T.Address,
+            T.Phone, T.Email, T.Describe, T.IDCardImg, T.IDCardTime, T.Flag, T.SerImg, T.SerTime, T.Balance, T.RegTime,
+            T.Password, T.IDCardState, T.SerImgState, T.ImOpenID, T.WxOpenID, T.PerID, T.QQOpenID, T.WbOpenID,
+            T.AttestType, T.ListPostCreateTime
+        from ( select row_number() over ( ");
+			if (!string.IsNullOrWhiteSpace(orderby))
+			{
+				strSql.AppendFormat(@" order by {0} ", orderby);
+			}
+			else
+			{
+				strSql.AppendFormat(@" order by SerUserID desc ");
+			}
+			strSql.AppendFormat(@" ) as Row ,
+                    T2.SerUserID ,
+                    T2.RealName ,
+                    T2.Sex ,
+                    T2.PhotoImg ,
+                    T2.Trade ,
+                    T2.Company ,
+                    T2.Position ,
+                    T2.WorkCity ,
+                    T2.Address ,
+                    T2.Phone ,
+                    T2.Email ,
+                    T2.Describe ,
+                    T2.IDCardImg ,
+                    T2.IDCardTime ,
+                    T2.Flag ,
+                    T2.SerImg ,
+                    T2.SerTime ,
+                    T2.Balance ,
+                    T2.RegTime ,
+                    T2.Password ,
+                    T2.IDCardState ,
+                    T2.SerImgState ,
+                    T2.ImOpenID ,
+                    T2.WxOpenID ,
+                    T2.PerID ,
+                    T2.QQOpenID ,
+                    T2.WbOpenID ,
+                    T2.AttestType ,
+                    T2.ListPostCreateTime
+                from ( select row_number() over ( partition  by SerUserID  ");
+			if (!string.IsNullOrWhiteSpace(orderby))
+			{
+				strSql.AppendFormat(@" order by {0} ", orderby);
+			}
+			else
+			{
+				strSql.AppendFormat(@" order by SerUserID desc ");
+			}
+			strSql.AppendFormat(@"  ) LEV ,
+                            *
+                        from T1 ) as T2
+                where LEV = 1 ");
+			if (!string.IsNullOrWhiteSpace(strWhere))
+			{
+				strSql.AppendFormat(@" and {0} ", strWhere);
+			}
+			strSql.AppendFormat(@" ) as T ");
+			strSql.AppendFormat(@" where Row between {0} and {1}", startIndex, endIndex);
+
+			//strSql.Append("SELECT * FROM ( ");
+			//strSql.Append(" SELECT ROW_NUMBER() OVER (");
+			//if (!string.IsNullOrEmpty(orderby.Trim()))
+			//{
+			//	strSql.Append("order by T." + orderby);
+			//}
+			//else
+			//{
+			//	strSql.Append("order by T.SerUserID desc");
+			//}
+			//strSql.Append(")AS Row, T.*  from ServerUser T ");
+			//if (!string.IsNullOrEmpty(strWhere.Trim()))
+			//{
+			//	strSql.Append(" WHERE " + strWhere);
+			//}
+			//strSql.Append(" ) TT");
+			//strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
 

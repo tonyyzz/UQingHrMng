@@ -29,12 +29,31 @@ namespace WebSystem.Systestcomjun.ServerUser
         private void databind()
         {
             string key = Utils.ReplaceString(txtkey.Text);
-            string where = " (RealName like '%" + key + "%' or Phone like '%" + key + "%')";
+			string where = "1=1";
+			if (!string.IsNullOrWhiteSpace(key))
+			{
+				where += " and (RealName like '%" + key + "%' or Phone like '%" + key + "%')";
+			}
             if(ddlauth.SelectedValue!=""){
                 where += " and Flag=" + ddlauth.SelectedValue;
             }
+			string orderStr = "";
+			string timeOrderStr = ddTimeOrder.SelectedValue;
+			int timeOrderInt = 0; int.TryParse(timeOrderStr, out timeOrderInt);
+			if (timeOrderInt <= 0 || timeOrderInt > 4)
+			{
+				timeOrderInt = 1;
+			}
+			switch (timeOrderInt)
+			{
+				case 1: orderStr = "RegTime desc"; break;
+				case 2: orderStr = "RegTime asc"; break;
+				case 3: orderStr = "ListPostCreateTime desc"; break;
+				case 4: orderStr = "ListPostCreateTime asc"; break;
+				default: orderStr = "RegTime desc"; break;
+			}
             AspNetPager1.RecordCount = bll.GetRecordCount(where);
-            Repeater1.DataSource = bll.GetListByPage(where, "RegTime desc", AspNetPager1.StartRecordIndex, AspNetPager1.EndRecordIndex);
+			Repeater1.DataSource = bll.GetListByPage(where, orderStr, AspNetPager1.StartRecordIndex, AspNetPager1.EndRecordIndex);
             Repeater1.DataBind();
         }
 
