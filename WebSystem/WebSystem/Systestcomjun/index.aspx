@@ -173,7 +173,7 @@
 					}
 					$(".nav li").removeClass("active");
 					rLi.addClass("active");
-					$("#frm").attr("src", href);
+					$("#frm").attr("src", href + location.search);
 				}
 				eventBind();
 				function eventBind() {

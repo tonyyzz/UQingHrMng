@@ -21,22 +21,51 @@ namespace WebSystem.Systestcomjun.ServerUser
             }
             if (!IsPostBack)
             {
-                databind();
+                databind(true);
             }
         }
 
-
-        private void databind()
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="isFromRequest">是否是从url请求获取的参数值，默认为不是</param>
+		private void databind(bool isFromRequest = false)
         {
-            string key = Utils.ReplaceString(txtkey.Text);
+			string stateStr = "";
+			if (isFromRequest) //是从url获取的参数值
+			{
+				stateStr = HttpContext.Current.Request["state"] ?? "";
+			}
+			else
+			{
+				stateStr = ddlauth.SelectedValue;
+			}
+			if (string.IsNullOrWhiteSpace(stateStr))
+			{
+				stateStr = "-1";
+			}
+			int stateInt = Convert.ToInt32(stateStr);
+			if (stateInt < 0 || stateInt > 3)
+			{
+				stateInt = -1;
+			}
 			string where = "1=1";
+			if (stateInt != -1)
+			{
+				where += " and Flag=" + stateInt;
+				if (isFromRequest)
+				{
+					//选中列表中的状态值
+					ddlauth.Items.FindByValue(stateInt.ToString()).Selected = true;
+				}
+			}
+
+			string key = Utils.ReplaceString(txtkey.Text);
 			if (!string.IsNullOrWhiteSpace(key))
 			{
 				where += " and (RealName like '%" + key + "%' or Phone like '%" + key + "%')";
 			}
-            if(ddlauth.SelectedValue!=""){
-                where += " and Flag=" + ddlauth.SelectedValue;
-            }
+			
 			string orderStr = "";
 			string timeOrderStr = ddTimeOrder.SelectedValue;
 			int timeOrderInt = 0; int.TryParse(timeOrderStr, out timeOrderInt);

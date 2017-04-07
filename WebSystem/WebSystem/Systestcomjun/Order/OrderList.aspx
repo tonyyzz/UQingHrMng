@@ -41,7 +41,24 @@
                         <div class="pull-right search" style="padding-right: 10px;">
                             <asp:TextBox ID="txtkey" class="searchtxt" runat="server" placeholder="订单编号/求职者/职业介绍人" Width="210px"></asp:TextBox>
                         </div>
-
+						<div class="pull-right search" style="padding-right: 10px;">
+                            <asp:DropDownList ID="ddOrderState" runat="server" CssClass="form-control">
+                                <asp:ListItem Value="-1">--全部订单--</asp:ListItem>
+								<asp:ListItem Value="0">待付款</asp:ListItem>
+								<asp:ListItem Value="1">悬赏中</asp:ListItem>
+								<asp:ListItem Value="2">待审核</asp:ListItem>
+								<asp:ListItem Value="3">已完成</asp:ListItem>
+								<asp:ListItem Value="4">面试交流</asp:ListItem>
+								<asp:ListItem Value="5">订单失败</asp:ListItem>
+								<asp:ListItem Value="6">客服处理</asp:ListItem>
+								<asp:ListItem Value="7">重新上传资料</asp:ListItem>
+								<asp:ListItem Value="8">面试交流</asp:ListItem>
+								<asp:ListItem Value="9">订单过期</asp:ListItem>
+								<asp:ListItem Value="10">订单已取消</asp:ListItem>
+								<asp:ListItem Value="11">等待HR确认</asp:ListItem>
+								<asp:ListItem Value="12">HR已拒绝</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
                     </div>
                     <div class="panel-body " style="padding-bottom: 0px">
                         <div class="tabdiv">
