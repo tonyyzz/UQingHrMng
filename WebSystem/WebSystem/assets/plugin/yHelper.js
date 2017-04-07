@@ -3,7 +3,7 @@
 	version: v1.4.1
 	author: yzz
 	create time: 2016-11-04
-	update time: 2017-03-14
+	update time: 2017-04-05
 	description: yHelper utility class
 	log:
 		2017-04-05: 增加方法：yHelper.date.getDayStr()
