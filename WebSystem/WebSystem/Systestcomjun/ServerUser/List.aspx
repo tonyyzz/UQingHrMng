@@ -60,11 +60,10 @@
                         </div>
 						<div class="pull-right search" style="padding-right: 10px;">
                             <asp:DropDownList ID="ddTimeOrder" runat="server" CssClass="form-control">
-                                
                                 <asp:ListItem Value="1">注册时间_倒序</asp:ListItem>
 								<asp:ListItem Value="2">注册时间_正序</asp:ListItem>
-                                <asp:ListItem Value="3">职位发布时间_倒序</asp:ListItem>
-                                <asp:ListItem Value="4">职位发布时间_正序</asp:ListItem>
+                                <%--<asp:ListItem Value="3">职位发布时间_倒序</asp:ListItem>
+                                <asp:ListItem Value="4">职位发布时间_正序</asp:ListItem>--%>
                             </asp:DropDownList>
                         </div>
                     </div>

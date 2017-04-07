@@ -37,6 +37,12 @@
                         <div class="pull-right search" style="padding-right: 10px;">
                             <asp:TextBox ID="txtkey" class="searchtxt" runat="server" placeholder="姓名/职位/公司"></asp:TextBox>
                         </div>
+						<div class="pull-right search" style="padding-right: 10px;">
+                            <asp:DropDownList ID="ddTimeOrder" runat="server" CssClass="searchtxt">
+                                <asp:ListItem Value="1">职位发布时间_倒序</asp:ListItem>
+                                <asp:ListItem Value="2">职位发布时间_正序</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
                        <div class="pull-right search" style="padding-right: 10px;">
                            <asp:DropDownList ID="ddlIsSole" runat="server" CssClass="searchtxt">
                                <asp:ListItem Value="" Text="是否独家"></asp:ListItem>

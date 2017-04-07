@@ -69,7 +69,7 @@ namespace WebSystem.Systestcomjun.ServerUser
 			string orderStr = "";
 			string timeOrderStr = ddTimeOrder.SelectedValue;
 			int timeOrderInt = 0; int.TryParse(timeOrderStr, out timeOrderInt);
-			if (timeOrderInt <= 0 || timeOrderInt > 4)
+			if (timeOrderInt <= 0 || timeOrderInt > 2)
 			{
 				timeOrderInt = 1;
 			}
@@ -77,8 +77,6 @@ namespace WebSystem.Systestcomjun.ServerUser
 			{
 				case 1: orderStr = "RegTime desc"; break;
 				case 2: orderStr = "RegTime asc"; break;
-				case 3: orderStr = "ListPostCreateTime desc"; break;
-				case 4: orderStr = "ListPostCreateTime asc"; break;
 				default: orderStr = "RegTime desc"; break;
 			}
             AspNetPager1.RecordCount = bll.GetRecordCount(where);

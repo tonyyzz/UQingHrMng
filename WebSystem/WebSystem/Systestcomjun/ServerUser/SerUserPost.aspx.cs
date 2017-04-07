@@ -21,14 +21,32 @@ namespace WebSystem.Systestcomjun.ServerUser
         }
         private void databind()
         {
+			string where = " 1=1 ";
+			string orderStr = "";
+			string timeOrderStr = ddTimeOrder.SelectedValue;
+			int timeOrderInt = 0; int.TryParse(timeOrderStr, out timeOrderInt);
+			if (timeOrderInt <= 0 || timeOrderInt > 2)
+			{
+				timeOrderInt = 1;
+			}
+			switch (timeOrderInt)
+			{
+				case 1: orderStr = "CreateTime desc"; break;
+				case 2: orderStr = "CreateTime asc"; break;
+				default: orderStr = "CreateTime desc"; break;
+			}
+
             string key = Utils.ReplaceString(txtkey.Text.Trim());
-            string where = "(RealName like '%" + key + "%' or PostName like '%" + key + "%' or Company like '%"+key+"%')";
-            if (ddlIsSole.SelectedValue != "")
-            {
-                where += " and IsSole="+ddlIsSole.SelectedValue;
-            }
+			if (ddlIsSole.SelectedValue != "")
+			{
+				where += " and IsSole=" + ddlIsSole.SelectedValue;
+			}
+			if (!string.IsNullOrWhiteSpace(key))
+			{
+				where += " and (RealName like '%" + key + "%' or PostName like '%" + key + "%' or Company like '%" + key + "%')";
+			}
             AspNetPager1.RecordCount = bll.GetRecordCountPost(where);
-            Repeater1.DataSource = bll.GetListByPage(where, "CONVERT(int,Colvalue),CreateTime desc", AspNetPager1.StartRecordIndex, AspNetPager1.EndRecordIndex);
+			Repeater1.DataSource = bll.GetListByPage(where, "CONVERT(int,Colvalue)," + orderStr, AspNetPager1.StartRecordIndex, AspNetPager1.EndRecordIndex);
             Repeater1.DataBind();
         }
         protected void Button1_Click(object sender, EventArgs e)
