@@ -113,6 +113,7 @@
     <Content Include="App\ali_notify.aspx" />
     <Content Include="App\css\Style.css" />
     <Content Include="App\wx_notify.aspx" />
+    <Content Include="assets\plugin\yHelper.js" />
     <Content Include="ChannelInvestment.aspx" />
     <Content Include="css\aui.2.css" />
     <Content Include="css\index.css" />
